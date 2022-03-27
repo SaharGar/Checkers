@@ -1,0 +1,11 @@
+.board {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: grid;
+    grid-template-columns: repeat(8,100px);
+    width: 800px;
+    height: 800px;
+    border: 1px solid black;
+}
