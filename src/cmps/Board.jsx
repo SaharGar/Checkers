@@ -2,7 +2,7 @@ import React from 'react'
 import { Cell } from './Cell'
 
 
-export const Board = ({ board, checkAvailableMoves }) => {
+export const Board = ({ board, checkAvailableMoves, moveChecker }) => {
     // console.log(board )
 
     return (
@@ -10,7 +10,7 @@ export const Board = ({ board, checkAvailableMoves }) => {
             {board.map(row => {
                 return row.map(cell => {
                     return <Cell key={`${cell.row}${cell.col}`} row={cell.row} col={cell.col} checkerImg={cell.checkerImg}
-                        board={board} isMarked={cell.isMarked} checkAvailableMoves={checkAvailableMoves} />
+                       isMarked={cell.isMarked} checkAvailableMoves={checkAvailableMoves} moveChecker={moveChecker}/>
                 })
             })}
         </section>

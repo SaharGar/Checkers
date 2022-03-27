@@ -31,6 +31,17 @@ export const App = () => {
     setBoard(newBoard)
   }
 
+  const moveChecker = (e) => {
+    const {row, col, player} = currCheker
+    const targetRow = +e.target.getAttribute('data-row')
+    const targetCol = +e.target.getAttribute('data-col')
+    const newBoard = [...board]
+    newBoard[row][col].checkerImg = undefined
+    newBoard[targetRow][targetCol].checkerImg = player === 'red' ? redPlayer : bluePlayer
+    setBoard(newBoard)
+    resetMarked()
+  }
+
   const checkAvailableMoves = (e) => {
     const row = +e.target.getAttribute('data-row')
     const col = +e.target.getAttribute('data-col')
@@ -78,7 +89,7 @@ export const App = () => {
   if (!board) return <></>
   return (
     <section>
-      <Board board={board} checkAvailableMoves={checkAvailableMoves}/>
+      <Board board={board} checkAvailableMoves={checkAvailableMoves} moveChecker={moveChecker}/>
     </section>
   )
 }
