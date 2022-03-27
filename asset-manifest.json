@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Checkers/static/css/main.c4e74a58.css",
+    "main.js": "/Checkers/static/js/main.53671d94.js",
+    "index.html": "/Checkers/index.html",
+    "static/media/blue-player.svg": "/Checkers/static/media/blue-player.b17f55f6e483884b26e7425b6f5bae32.svg",
+    "static/media/red-player.svg": "/Checkers/static/media/red-player.c909ecb531710f05b9a373589d269bb9.svg",
+    "main.c4e74a58.css.map": "/Checkers/static/css/main.c4e74a58.css.map",
+    "main.53671d94.js.map": "/Checkers/static/js/main.53671d94.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c4e74a58.css",
+    "static/js/main.53671d94.js"
+  ]
+}
