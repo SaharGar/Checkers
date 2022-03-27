@@ -10,7 +10,8 @@
     }
 
     &.marked {
-        background-color: aqua;
+        background-color: rgba(7, 158, 7, 0.63);
+        cursor: pointer;
     }
 
     .player {
@@ -18,5 +19,11 @@
         height: 100%;
         background-repeat: no-repeat;
         background-position: center;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            transform: scale(1.1);
+        }
     }
 }

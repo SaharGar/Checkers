@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 
-export const Cell = ({ row, col, checkerImg, isMarked, checkAvailableMoves, moveChecker }) => {
+export const Cell = ({ row, col, checkerImg, isMarked, playerTurn, checkAvailableMoves, moveChecker }) => {
 
 
     const [cellColor, setCellColor] = useState(null)
@@ -19,6 +19,10 @@ export const Cell = ({ row, col, checkerImg, isMarked, checkAvailableMoves, move
         }
     }, [checkerImg])
 
+    const onCheckAvailableMoves = (e) => {
+        if(player === playerTurn) checkAvailableMoves(e)
+    }
+
     const onMoveChecker = (e) => {
         if(isMarked) moveChecker(e)
     }
@@ -26,7 +30,7 @@ export const Cell = ({ row, col, checkerImg, isMarked, checkAvailableMoves, move
     if (!cellColor) <></>
     return (
         <section className={`cell ${cellColor} ${isMarked ? 'marked' : ''}`} data-row={row} data-col={col} onClick={onMoveChecker}>
-            {(checkerImg && cellColor === 'black') && <div className='player' style={{ backgroundImage: `url(${checkerImg})` }} data-row={row} data-col={col} data-player={player} onClick={checkAvailableMoves}></div>}
+            {(checkerImg && cellColor === 'black') && <div className='player' style={{ backgroundImage: `url(${checkerImg})` }} data-row={row} data-col={col} data-player={player} onClick={onCheckAvailableMoves}></div>}
         </section>
     )
 }

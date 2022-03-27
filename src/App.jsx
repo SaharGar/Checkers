@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Board } from './cmps/Board'
+import { Buttons } from './cmps/Buttons'
 
 import bluePlayer from './assets/imgs/blue-player.svg'
 import redPlayer from './assets/imgs/red-player.svg'
@@ -9,10 +10,32 @@ export const App = () => {
 
   const [board, setBoard] = useState(null)
   const [currCheker, setCurrChecker] = useState(null)
+  const [playerTurn, setPlayerTurn] = useState(null)
+  const [redCheckersLeft, setRedCheckersLeft] = useState(null)
+  const [blueCheckersLeft, setBlueCheckersLeft] = useState(null)
+  const [winner, setWinner] = useState(null)
 
   useEffect(() => {
-    createBoard()
+    initGame()
   }, [])
+
+  useEffect(() => {
+    if(board) checkForWin()
+  },[blueCheckersLeft,redCheckersLeft])
+
+  const initGame = () => {
+    createBoard()
+    setStartingPlayer()
+    setRedCheckersLeft(12)
+    setBlueCheckersLeft(12)
+    setWinner(false)
+  }
+
+  const setStartingPlayer = () => {
+    const num = Math.random()
+    if (num <= 0.5) setPlayerTurn('red')
+    else setPlayerTurn('blue')
+  }
 
   const createBoard = () => {
     let newBoard = []
@@ -31,15 +54,22 @@ export const App = () => {
     setBoard(newBoard)
   }
 
+  const checkForWin = () => {
+    if(blueCheckersLeft === 0) setWinner('red')
+    else if(redCheckersLeft === 0) setWinner('blue')
+  }
+
   const eatChecker = (targetCol) => {
     const { row, col, player } = currCheker
     const newBoard = [...board]
     if (player === 'red') {
       if ((targetCol - col) === 2) newBoard[row - 1][col + 1].checkerImg = undefined
       else newBoard[row - 1][col - 1].checkerImg = undefined
+      setBlueCheckersLeft(prevCheckersLeft => prevCheckersLeft - 1)
     } else {
       if ((targetCol - col) === 2) newBoard[row + 1][col + 1].checkerImg = undefined
       else newBoard[row + 1][col - 1].checkerImg = undefined
+      setRedCheckersLeft(prevCheckersLeft => prevCheckersLeft - 1)
     }
 
   }
@@ -55,6 +85,7 @@ export const App = () => {
     setBoard(newBoard)
     resetMarked()
     setCurrChecker(null)
+    setPlayerTurn(playerTurn === 'red' ? 'blue' : 'red')
   }
 
   const checkAvailableMoves = (e) => {
@@ -115,24 +146,16 @@ export const App = () => {
     setBoard(newBoard)
   }
 
-  const toggleMarkOff = () => {
-    const newBoard = [...board]
-    const { row, col, player } = currCheker
-    if (player === 'red') {
-      if (row - 1 >= 0 && col - 1 >= 0) newBoard[row - 1][col - 1].isMarked = false
-      if (row - 1 >= 0 && col + 1 < 8) newBoard[row - 1][col + 1].isMarked = false
-    } else {
-      if (row + 1 <= 7 && col - 1 >= 0) newBoard[row + 1][col - 1].isMarked = false
-      if (row + 1 <= 7 && col + 1 < 8) newBoard[row + 1][col + 1].isMarked = false
-    }
-    setBoard(newBoard)
-    setCurrChecker(null)
-  }
 
   if (!board) return <></>
   return (
-    <section>
-      <Board board={board} checkAvailableMoves={checkAvailableMoves} moveChecker={moveChecker} />
+    <section className='app'>
+      <h1><span>{playerTurn}</span> Player Turn</h1>
+      {winner && <h2><span>{winner}</span> Won</h2>}
+      <h3 className='red'>Red: {redCheckersLeft} left</h3>
+      <h3 className='blue'>Blue: {blueCheckersLeft} left</h3>
+      <Buttons initGame={initGame}/>
+      <Board board={board} playerTurn={playerTurn} checkAvailableMoves={checkAvailableMoves} moveChecker={moveChecker} />
     </section>
   )
 }
